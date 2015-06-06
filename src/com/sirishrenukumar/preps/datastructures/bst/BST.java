@@ -220,6 +220,48 @@ public class BST<T extends Comparable<T>> {
 		return findMaximum(current.right);
 	}
 
+	public boolean isBST() {
+		return isBST_Incorrect(root);
+	}
+	
+	/**
+	 * This method is simple but incorrect since it only ensures that the left child of each node is <= the key of the current node AND the right child is > key
+	 * 
+	 * However we need to check this for entire subtrees of each node and not just its immediate children 
+	 * 
+	 * Refer <a>http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/<a>
+	 * 
+	 * @param current
+	 * @return
+	 */
+	private boolean isBST_Incorrect(Node<T> current) {
+		
+		/*
+		 * NULL case is BST by default
+		 */
+		if(current == null) 
+			return true;
+		
+		/*
+		 * Left child, if present, should NOT be greater than the current key
+		 */
+		if(current.left != null && current.left.key.compareTo(current.key) > 0 ) {
+			return false;
+		}
+		/*
+		 * Right child, if present, should NOT be less than or equal to current key
+		 */
+		if(current.right != null && current.right.key.compareTo(current.key) <= 0) {
+			return false;
+		}
+		
+		if(!isBST_Incorrect(current.left) || !isBST_Incorrect(current.right)) {
+			return false;
+		}
+		
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -256,11 +298,18 @@ public class BST<T extends Comparable<T>> {
 		System.out.println();
 
 		System.out.println();
+		System.out.println("Is BST: " + bstWithInteger.isBST());
+		System.out.println();
+		
+		System.out.println();
 		System.out.println("Input tree: " + bstWithInteger);
 		bstWithInteger.mirror();
 		System.out.println("Mirror image of tree: " + bstWithInteger);
 		System.out.println();
 		
+		System.out.println();
+		System.out.println("Is BST: " + bstWithInteger.isBST());
+		System.out.println();
 		
 		/*
 		 * BST with strings
