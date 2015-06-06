@@ -15,10 +15,15 @@ public class BST<T extends Comparable<T>> {
 		private U key;
 		private Node<U> left;
 		private Node<U> right;
-
 		Node(U key) {
 			this.key = key;
 		}
+		@Override
+		public String toString() {
+			return String.format("[%d]", key);
+		}
+		
+		
 	}
 
 	private Node<T> root;
@@ -116,7 +121,7 @@ public class BST<T extends Comparable<T>> {
 		System.out.print(String.format("%s ", current.key));
 		inOrder(current.right);
 	}
-
+	
 	private void inOrder(Node<T> current, StringBuilder sb) {
 		if (current == null) {
 			return;
@@ -190,7 +195,6 @@ public class BST<T extends Comparable<T>> {
 		Node<T> temp = current.left;
 		current.left = current.right;
 		current.right = temp;
-		return;
 	}
 
 	
@@ -215,9 +219,15 @@ public class BST<T extends Comparable<T>> {
 	}
 	private T findMinimum(Node<T> current) {
 		
+		/*
+		 * Handle empty tree condition
+		 */
 		if(current == null)
 			return null;
 		
+		/*
+		 * Base case
+		 */
 		if(current.left == null)
 			return current.key;
 		
@@ -284,6 +294,36 @@ public class BST<T extends Comparable<T>> {
 		
 		return true;
 	}
+	
+	private Node<T> predecessor;
+	public T inOrderPredecessor(T key) {
+		predecessor = null;
+		inOrderPredecessor(root, key);
+		return predecessor != null ? predecessor.key : null;
+	}
+
+	private void inOrderPredecessor(Node<T> current, T key) {
+
+		if (current == null)
+			return;
+
+		if (current.key == key)
+			predecessor = current.left != null ? rightmost(current.left) : null;
+		else if (key.compareTo(current.key) <= 0) {
+			predecessor = current;
+			inOrderPredecessor(current.left, key);
+		} else {
+			predecessor = current;
+			inOrderPredecessor(current.right, key);
+		}
+	}
+	private Node<T> rightmost(Node<T> current) {
+		Node<T> temp = current;
+		while(temp.right != null)
+			temp = temp.right;
+		return temp;
+	}
+	
 
 	@Override
 	public String toString() {
@@ -304,6 +344,8 @@ public class BST<T extends Comparable<T>> {
 		for (int i = 0; i <5; ++i) {
 			bstWithInteger.insert(i);
 		}
+		
+		
 		bstWithInteger.inOrder();
 		bstWithInteger.reverseInOrder();
 		
@@ -320,7 +362,7 @@ public class BST<T extends Comparable<T>> {
 		System.out.println();
 		
 		System.out.println(String.format("Search result for %d in tree: %s", 100, bstWithInteger.search(100)));
-		System.out.println(String.format("Search result for %d in tree: %s", 10, bstWithInteger.search(10)));
+		System.out.println(String.format("Search result for %d in tree: %s", 9 , bstWithInteger.search(9)));
 		
 		System.out.println();
 		System.out.println("Minimum key in tree: " + bstWithInteger.findMinimum());
@@ -330,6 +372,15 @@ public class BST<T extends Comparable<T>> {
 		System.out.println("Maximum key in tree: " + bstWithInteger.findMaximum());
 		System.out.println();
 
+		
+		
+		for(int i = 0; i < 11; ++i) {
+			System.out.println();
+			System.out.println(String.format("Predecessor of %d: %d", i, bstWithInteger.inOrderPredecessor(i)));
+			System.out.println();
+		}
+		
+		
 		System.out.println();
 		System.out.println("Is BST: " + bstWithInteger.isBST());
 		System.out.println();
@@ -344,29 +395,32 @@ public class BST<T extends Comparable<T>> {
 		System.out.println("Is BST: " + bstWithInteger.isBST());
 		System.out.println();
 		
-		/*
-		 * BST with strings
-		 */
-		BST<String> bstWithString = new BST<String>();
-		bstWithString.insert("e");
-		bstWithString.insert("d");
-		bstWithString.insert("c");
-		bstWithString.insert("b");
-		bstWithString.insert("a");
-
-		bstWithString.inOrder();
-		bstWithString.reverseInOrder();
-		System.out.println();
-		System.out.println("Height: " + bstWithString.height());
-		System.out.println();
-
-		System.out.println();
-		System.out.println("Size: " + bstWithString.size());
-		System.out.println();
-
-		System.out.println();
-		System.out.println("Leaves count: " + bstWithString.countLeaves());
-		System.out.println();
+		
+		
+		
+//		/*
+//		 * BST with strings
+//		 */
+//		BST<String> bstWithString = new BST<String>();
+//		bstWithString.insert("e");
+//		bstWithString.insert("d");
+//		bstWithString.insert("c");
+//		bstWithString.insert("b");
+//		bstWithString.insert("a");
+//
+//		bstWithString.inOrder();
+//		bstWithString.reverseInOrder();
+//		System.out.println();
+//		System.out.println("Height: " + bstWithString.height());
+//		System.out.println();
+//
+//		System.out.println();
+//		System.out.println("Size: " + bstWithString.size());
+//		System.out.println();
+//
+//		System.out.println();
+//		System.out.println("Leaves count: " + bstWithString.countLeaves());
+//		System.out.println();
 		
 	}
 
