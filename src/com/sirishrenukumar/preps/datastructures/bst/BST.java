@@ -323,8 +323,6 @@ public class BST<T extends Comparable<T>> {
 			temp = temp.right;
 		return temp;
 	}
-
-	
 	
 	@Override
 	public String toString() {
