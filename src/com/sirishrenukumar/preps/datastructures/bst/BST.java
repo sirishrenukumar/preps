@@ -145,6 +145,16 @@ public class BST<T extends Comparable<T>> {
 		System.out.print(String.format("%s ", current.key));
 		reverseInOrder(current.left);
 	}
+	
+	public int size() {
+		return size(root);
+	}
+	private int size(Node<T> current) {
+		if(current == null) 
+			return 0;
+		
+		return size(current.left) + 1 + size(current.right);
+	}
 
 	/**
 	 * Returns the height of the tree
@@ -183,6 +193,19 @@ public class BST<T extends Comparable<T>> {
 		return;
 	}
 
+	
+	public int countLeaves() {
+		return countLeaves(root);
+	}
+	private int countLeaves(Node<T> current) {
+		if(current == null)
+			return 0;
+		if(current.left == null && current.right == null)
+			return 1;
+		
+		return countLeaves(current.left) + countLeaves(current.right);
+	}
+	
 	/**
 	 * Find the minimum key in the BST
 	 * @return
@@ -275,7 +298,10 @@ public class BST<T extends Comparable<T>> {
 		 * BST with integers
 		 */
 		BST<Integer> bstWithInteger = new BST<Integer>();
-		for (int i = 10; i > 0; --i) {
+		for (int i = 5; i <10 ; ++i) {
+			bstWithInteger.insert(i);
+		}
+		for (int i = 0; i <5; ++i) {
 			bstWithInteger.insert(i);
 		}
 		bstWithInteger.inOrder();
@@ -285,6 +311,13 @@ public class BST<T extends Comparable<T>> {
 		System.out.println("Height: " + bstWithInteger.height());
 		System.out.println();
 		
+		System.out.println();
+		System.out.println("Size: " + bstWithInteger.size());
+		System.out.println();
+
+		System.out.println();
+		System.out.println("Leaves count: " + bstWithInteger.countLeaves());
+		System.out.println();
 		
 		System.out.println(String.format("Search result for %d in tree: %s", 100, bstWithInteger.search(100)));
 		System.out.println(String.format("Search result for %d in tree: %s", 10, bstWithInteger.search(10)));
@@ -326,6 +359,15 @@ public class BST<T extends Comparable<T>> {
 		System.out.println();
 		System.out.println("Height: " + bstWithString.height());
 		System.out.println();
+
+		System.out.println();
+		System.out.println("Size: " + bstWithString.size());
+		System.out.println();
+
+		System.out.println();
+		System.out.println("Leaves count: " + bstWithString.countLeaves());
+		System.out.println();
+		
 	}
 
 }
