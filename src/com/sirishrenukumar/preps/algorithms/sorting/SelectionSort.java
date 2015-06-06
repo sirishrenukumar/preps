@@ -1,5 +1,7 @@
 package com.sirishrenukumar.preps.algorithms.sorting;
 
+import java.util.Arrays;
+
 public class SelectionSort {
 
 	public static void main(String[] args) {
@@ -18,5 +20,7 @@ public class SelectionSort {
 			arr[i] = arr[minIndex];
 			arr[minIndex]= temp;
 		}
+		
+		System.out.println(Arrays.toString(arr));
 	}
 }
