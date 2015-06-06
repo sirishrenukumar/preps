@@ -68,7 +68,7 @@ public class BST<T extends Comparable<T>> {
 		}
 		
 		inOrder(current.left);
-		System.out.print(current.data);
+		System.out.print(String.format("%s ",current.data));
 		inOrder(current.right);
 	}
 	private void reverseInOrder(Node<T> current) {
@@ -77,7 +77,7 @@ public class BST<T extends Comparable<T>> {
 		}
 		
 		reverseInOrder(current.right);
-		System.out.print(current.data);
+		System.out.print(String.format("%s ",current.data));
 		reverseInOrder(current.left);
 	}
 
