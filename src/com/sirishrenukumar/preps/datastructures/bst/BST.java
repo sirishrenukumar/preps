@@ -1,5 +1,9 @@
 package com.sirishrenukumar.preps.datastructures.bst;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
  * Using generics for the datatype of the 'key' field in each node. Extends
  * comparable so that we can determine the subtree where it has to be inserted
@@ -160,6 +164,65 @@ public class BST<T extends Comparable<T>> {
 		
 		return size(current.left) + 1 + size(current.right);
 	}
+	public int sizeIterativeWithStack() {
+		Stack<Node<T>> stack = new Stack<BST<T>.Node<T>>();
+		
+		if(root!= null)
+			stack.push(root);
+		
+		int size = 0;
+		while(!stack.empty()) {
+			Node<T> current = stack.pop();
+
+			/*
+			 * Push the non-empty left subtree onto the stack 
+			 */
+			if(current.left!= null)
+				stack.push(current.left);
+
+			/*
+			 * Count the current node
+			 */
+			++size;
+			
+			/*
+			 * Push the non-empty right subtree onto the stack 
+			 */
+			if(current.right!= null)
+				stack.push(current.right);
+		}
+		return size;
+	}
+	public int sizeIterativeWithQueue() {
+		Queue<Node<T>> queue = new LinkedList<Node<T>>();
+		
+		
+		if(root!= null)
+			queue.add(root);
+		
+		int size = 0;
+		while(!queue.isEmpty()) {
+			Node<T> current = queue.remove();
+
+			/*
+			 * Push the non-empty left subtree onto the queue 
+			 */
+			if(current.left!= null)
+				queue.add(current.left);
+
+			/*
+			 * Count the current node
+			 */
+			++size;
+			
+			/*
+			 * Push the non-empty right subtree onto the queue 
+			 */
+			if(current.right!= null)
+				queue.add(current.right);
+		}
+		return size;
+	}
 
 	/**
 	 * Returns the height of the tree
@@ -208,6 +271,29 @@ public class BST<T extends Comparable<T>> {
 			return 1;
 		
 		return countLeaves(current.left) + countLeaves(current.right);
+	}
+	public int countLeavesIterativeWithStack() {
+		Stack<Node<T>> stack = new Stack<Node<T>>();
+		
+		if(root!=null)
+			stack.push(root);
+		
+		int count = 0;
+		while(!stack.empty()){
+			
+			Node<T> current = stack.pop();
+			
+			if(current.left == null && current.right == null)
+				++count;
+			
+			if(current.left != null)
+				stack.push(current.left);
+			
+			if(current.right != null)
+				stack.push(current.right);
+		}
+		
+		return count;
 	}
 	
 	/**
@@ -357,7 +443,17 @@ public class BST<T extends Comparable<T>> {
 		System.out.println();
 
 		System.out.println();
+		System.out.println("Size (With Stack): " + bstWithInteger.sizeIterativeWithStack());
+		System.out.println();
+		System.out.println();
+		System.out.println("Size (With Queue): " + bstWithInteger.sizeIterativeWithQueue());
+		System.out.println();
+
+		System.out.println();
 		System.out.println("Leaves count: " + bstWithInteger.countLeaves());
+		System.out.println();
+		System.out.println();
+		System.out.println("Leaves count (With Stack): " + bstWithInteger.countLeavesIterativeWithStack());
 		System.out.println();
 		
 		System.out.println(String.format("Search result for %d in tree: %s", 100, bstWithInteger.search(100)));
